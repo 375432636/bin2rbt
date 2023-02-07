@@ -19,7 +19,6 @@ When using LPC11U35FHI33 as the download tool to upload data to ICE40UP5k, only 
 Run the script through the command line and use the following parameters:
 
 ```
-cssCopy code
 python bin2rbt.py --binfile <BIN file> --rbtfile <RBT file>
 ```
 

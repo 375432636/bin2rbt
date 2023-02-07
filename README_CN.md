@@ -19,7 +19,6 @@
 通过命令行运行脚本并使用以下参数：
 
 ```
-cssCopy code
 python bin2rbt.py --binfile <BIN文件> --rbtfile <RBT文件>
 ```
 
