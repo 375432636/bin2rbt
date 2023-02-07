@@ -30,7 +30,7 @@ def bin2rbt(binfile, rbtfile):
             binlines += int2bin(bin_data[i])
             
         endline1 = "\r\n"+int2bin_list(bin_data[-6:-4]) + "\r\n"
-        endline2 = int2bin_list(bin_data[-4:])
+        endline2 = int2bin_list(bin_data[-4:])+"\r\n"
         for i in range(6):
             print(bin_data[(i-6)])
         print( endline1)
