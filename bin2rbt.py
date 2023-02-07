@@ -7,19 +7,15 @@ import click
 
 head_line = "Lattice Semiconductor Corporation ASCII Bitstream\r\n"
 gen_time  = "Date:"+"\r\n"*6
-context_lines = []
 
 endline1 = ""
 endline2 = ""
 
 def int2bin(int_number):
-    res_str = ""
-    binstr = bin(int_number)[2:]
-    binstr_len = len(binstr)
-    for i in range(8-binstr_len):
-        res_str += '0'
-    res_str += binstr
-    return res_str
+    return "{0:08b}".format(int_number)
+
+def int2bin_list(int_number_list):
+    return "".join(["{0:08b}".format(i) for i in int_number_list])
 
 @click.command()
 @click.option('--binfile', default='binfile.bin', help='binfile.bin')
@@ -33,20 +29,22 @@ def bin2rbt(binfile, rbtfile):
                 binlines = binlines + "\r\n"
             binlines += int2bin(bin_data[i])
             
-        endline1 = "\r\n"+int2bin(bin_data[-6]) + int2bin(bin_data[-5]) + "\r\n"
-        endline2 = int2bin(bin_data[-4]) + int2bin(bin_data[-3]) + int2bin(bin_data[-2]) + int2bin(bin_data[-1]) + "\r\n"
+        endline1 = "\r\n"+int2bin_list(bin_data[-6:-4]) + "\r\n"
+        endline2 = int2bin_list(bin_data[-4:])
         for i in range(6):
             print(bin_data[(i-6)])
         print( endline1)
         print( endline2)
     
-    with open(rbtfile, "w+") as rf:
+    with open(rbtfile, "wb") as rf:
+        context_lines = []
         context_lines.append(head_line)
         context_lines.append(gen_time)
         context_lines.append(binlines)
         context_lines.append(endline1)
         context_lines.append(endline2)
-        rf.writelines(context_lines)
+        context_lines = "".join(context_lines).encode()
+        rf.write(context_lines)
 
 
 if __name__ == '__main__':
